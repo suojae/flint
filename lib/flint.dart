@@ -2,6 +2,7 @@ library flint;
 
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'src/rules/avoid_empty_catch.dart';
 import 'src/rules/avoid_hardcoded_color.dart';
 import 'src/rules/avoid_image_opacity.dart';
 import 'src/rules/avoid_shrink_wrap_in_list.dart';
@@ -18,5 +19,6 @@ class _FlintPlugin extends PluginBase {
         AvoidVisibilityWidget(),
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
+        AvoidEmptyCatch(),
       ];
 }
