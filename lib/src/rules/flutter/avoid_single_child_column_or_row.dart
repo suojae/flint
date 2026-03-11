@@ -2,7 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-import '../../utils/widget_helpers.dart';
+import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_single_child_column_or_row
 ///
