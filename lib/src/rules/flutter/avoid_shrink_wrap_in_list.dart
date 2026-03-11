@@ -2,7 +2,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-import '../utils/widget_helpers.dart';
+import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_shrink_wrap_in_list
 ///
@@ -68,7 +68,7 @@ class AvoidShrinkWrapInList extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -81,7 +81,7 @@ class AvoidShrinkWrapInList extends DartLintRule {
       if (shrinkWrapArg == null) return;
 
       if (_isTrueLiteral(shrinkWrapArg.expression)) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

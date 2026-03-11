@@ -48,17 +48,17 @@ class AvoidHardcodedColor extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
-      final name = node.constructorName.type.name2.lexeme;
+      final name = node.constructorName.type.name.lexeme;
       if (name != 'Color') return;
 
       // Only flag if inside a build method or widget tree
       if (!_isInsideBuildMethod(node)) return;
 
-      reporter.reportErrorForNode(_code, node);
+      reporter.atNode(node, _code);
     });
 
     // Also catch Color.fromRGBO, Color.fromARGB
@@ -68,7 +68,7 @@ class AvoidHardcodedColor extends DartLintRule {
         final methodName = node.methodName.name;
         if (methodName == 'fromRGBO' || methodName == 'fromARGB') {
           if (_isInsideBuildMethod(node)) {
-            reporter.reportErrorForNode(_code, node);
+            reporter.atNode(node, _code);
           }
         }
       }

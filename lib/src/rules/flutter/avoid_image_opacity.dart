@@ -1,7 +1,7 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-import '../utils/widget_helpers.dart';
+import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_image_opacity
 ///
@@ -56,7 +56,7 @@ class AvoidImageOpacity extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -67,7 +67,7 @@ class AvoidImageOpacity extends DartLintRule {
       if (childArg == null) return;
 
       if (isWidgetOfType(childArg.expression, _imageTypes)) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }
