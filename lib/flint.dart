@@ -2,13 +2,13 @@ library flint;
 
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-import 'src/rules/avoid_empty_catch.dart';
-import 'src/rules/avoid_hardcoded_color.dart';
-import 'src/rules/avoid_image_opacity.dart';
-import 'src/rules/avoid_nested_padding.dart';
-import 'src/rules/avoid_shrink_wrap_in_list.dart';
-import 'src/rules/avoid_single_child_column_or_row.dart';
-import 'src/rules/avoid_visibility_widget.dart';
+import 'src/rules/dart/avoid_empty_catch.dart';
+import 'src/rules/flutter/avoid_hardcoded_color.dart';
+import 'src/rules/flutter/avoid_image_opacity.dart';
+import 'src/rules/flutter/avoid_nested_padding.dart';
+import 'src/rules/flutter/avoid_shrink_wrap_in_list.dart';
+import 'src/rules/flutter/avoid_single_child_column_or_row.dart';
+import 'src/rules/flutter/avoid_visibility_widget.dart';
 
 PluginBase createPlugin() => _FlintPlugin();
 

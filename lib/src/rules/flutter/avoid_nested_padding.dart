@@ -1,7 +1,7 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
-import '../utils/widget_helpers.dart';
+import '../../utils/widget_helpers.dart';
 
 /// # avoid_nested_padding
 ///
