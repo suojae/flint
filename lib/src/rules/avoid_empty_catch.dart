@@ -55,12 +55,12 @@ class AvoidEmptyCatch extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addCatchClause((node) {
       if (node.body.statements.isEmpty) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

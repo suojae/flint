@@ -50,7 +50,7 @@ class AvoidNestedPadding extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -61,7 +61,7 @@ class AvoidNestedPadding extends DartLintRule {
       if (childArg == null) return;
 
       if (isWidgetOfType(childArg.expression, const {'Padding'})) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

@@ -56,7 +56,7 @@ class AvoidImageOpacity extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -67,7 +67,7 @@ class AvoidImageOpacity extends DartLintRule {
       if (childArg == null) return;
 
       if (isWidgetOfType(childArg.expression, _imageTypes)) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

@@ -4,7 +4,7 @@ import 'package:analyzer/dart/ast/ast.dart';
 ///
 /// Returns the class name (e.g., "Opacity", "Image", "ListView").
 String? getWidgetName(InstanceCreationExpression node) {
-  return node.constructorName.type.name2.lexeme;
+  return node.constructorName.type.name.lexeme;
 }
 
 /// Extracts a named argument from an [InstanceCreationExpression].

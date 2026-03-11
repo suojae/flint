@@ -51,7 +51,7 @@ class AvoidVisibilityWidget extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -60,17 +60,17 @@ class AvoidVisibilityWidget extends DartLintRule {
       if (widgetName == 'Visibility') {
         final visibleArg = getNamedArgument(node, 'visible');
         if (visibleArg != null && _isFalseLiteral(visibleArg.expression)) {
-          reporter.reportErrorForNode(_code, node);
+          reporter.atNode(node, _code);
           return;
         }
         // Even when using a variable, warn about Visibility usage
         if (visibleArg != null) {
-          reporter.reportErrorForNode(_code, node);
+          reporter.atNode(node, _code);
         }
       }
 
       if (widgetName == 'Offstage') {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

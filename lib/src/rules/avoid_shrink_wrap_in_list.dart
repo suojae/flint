@@ -68,7 +68,7 @@ class AvoidShrinkWrapInList extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -81,7 +81,7 @@ class AvoidShrinkWrapInList extends DartLintRule {
       if (shrinkWrapArg == null) return;
 
       if (_isTrueLiteral(shrinkWrapArg.expression)) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }

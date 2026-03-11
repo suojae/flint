@@ -61,7 +61,7 @@ class AvoidSingleChildColumnOrRow extends DartLintRule {
   @override
   void run(
     CustomLintResolver resolver,
-    ErrorReporter reporter,
+    DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
     context.registry.addInstanceCreationExpression((node) {
@@ -73,7 +73,7 @@ class AvoidSingleChildColumnOrRow extends DartLintRule {
 
       final expression = childrenArg.expression;
       if (expression is ListLiteral && expression.elements.length == 1) {
-        reporter.reportErrorForNode(_code, node);
+        reporter.atNode(node, _code);
       }
     });
   }
