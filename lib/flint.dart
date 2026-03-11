@@ -5,6 +5,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
 import 'package:flint/src/rules/dart/avoid_relative_import.dart';
+import 'package:flint/src/rules/functional/avoid_dynamic_type.dart';
 import 'package:flint/src/rules/functional/avoid_mutable_global_state.dart';
 import 'package:flint/src/rules/functional/avoid_mutating_parameters.dart';
 import 'package:flint/src/rules/state/bloc/enforce_bloc_naming.dart';
@@ -31,6 +32,7 @@ class _FlintPlugin extends PluginBase {
         AvoidNestedPadding(),
         AvoidMutableGlobalState(),
         AvoidMutatingParameters(),
+        AvoidDynamicType(),
         EnforceBlocNaming(),
       ];
 }
