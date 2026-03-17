@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
@@ -58,6 +59,18 @@ class AvoidDeepImport extends FlintLintRule {
       // package:name/ 이후의 경로 추출
       final slashIndex = uri.indexOf('/');
       if (slashIndex == -1) return;
+
+      // 외부 패키지는 검사하지 않음 (자기 프로젝트만 검사)
+      final importedPackage =
+          uri.substring('package:'.length, slashIndex);
+      final compilationUnit = node.parent;
+      if (compilationUnit is! CompilationUnit) return;
+      final libraryUri =
+          compilationUnit.declaredFragment?.source.uri.toString();
+      if (libraryUri == null || !libraryUri.startsWith('package:')) return;
+      final currentPackage =
+          libraryUri.substring('package:'.length, libraryUri.indexOf('/'));
+      if (importedPackage != currentPackage) return;
 
       final packagePath = uri.substring(slashIndex + 1);
       final segments = packagePath.split('/');
