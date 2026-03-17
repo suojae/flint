@@ -16,11 +16,15 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// 가까운 파일끼리의 import는 자연스럽지만,
 /// 먼 모듈의 깊은 경로를 참조하는 것은 강한 결합을 만듭니다.
 ///
+/// ## 예외
+/// `core/`와 `shared/` 디렉토리는 앱 전역 공통 레이어이므로
+/// 거리에 관계없이 import를 허용합니다.
+///
 /// ## 나쁜 예
 /// ```dart
-/// // features/auth/data/repo.dart 에서:
-/// // 공통 조상까지 3단계 → 위반
-/// import 'package:app/core/network/http/client.dart';
+/// // features/auth/presentation/widgets/sub/login_form.dart 에서:
+/// // 공통 조상까지 4단계 → 위반
+/// import 'package:app/features/payment/domain/entities/payment.dart';
 /// ```
 ///
 /// ## 좋은 예
@@ -28,6 +32,10 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// // features/auth/data/repo.dart 에서:
 /// // 공통 조상까지 1단계 → 허용
 /// import 'package:app/features/auth/domain/entities/user.dart';
+///
+/// // core/, shared/는 거리에 관계없이 허용
+/// import 'package:app/core/services/auth_service.dart';
+/// import 'package:app/shared/utils/time_util.dart';
 /// ```
 class AvoidDeepImport extends FlintLintRule {
   AvoidDeepImport() : super(code: _code);
@@ -43,6 +51,10 @@ class AvoidDeepImport extends FlintLintRule {
   );
 
   static const _maxDepth = 3;
+
+  /// 앱 전역에서 사용하도록 설계된 공통 레이어 디렉토리.
+  /// 이 디렉토리의 파일은 거리에 관계없이 import를 허용합니다.
+  static const _sharedTopLevelDirs = ['core/', 'shared/'];
 
   @override
   void analyze(
@@ -70,15 +82,21 @@ class AvoidDeepImport extends FlintLintRule {
           libraryUri.substring('package:'.length, libraryUri.indexOf('/'));
       if (importedPackage != currentPackage) return;
 
+      // 앱 공통 레이어(core/, shared/)는 어디서든 import 허용
+      final importedPath = uri.substring(slashIndex + 1);
+      if (_sharedTopLevelDirs.any((dir) => importedPath.startsWith(dir))) {
+        return;
+      }
+
       // 현재 파일과 import 대상의 디렉토리 세그먼트 추출
-      final importedSegments = uri.substring(slashIndex + 1).split('/');
+      final importedSegments = importedPath.split('/');
       final importedDir = importedSegments.sublist(
         0,
         importedSegments.length - 1,
       );
 
-      final currentSegments =
-          libraryUri.substring(libraryUri.indexOf('/') + 1).split('/');
+      final currentPath = libraryUri.substring(libraryUri.indexOf('/') + 1);
+      final currentSegments = currentPath.split('/');
       final currentDir = currentSegments.sublist(
         0,
         currentSegments.length - 1,
