@@ -6,7 +6,10 @@ import 'package:flint/src/rules/dart/avoid_barrel_file.dart';
 import 'package:flint/src/rules/dart/avoid_as_cast.dart';
 import 'package:flint/src/rules/dart/avoid_deep_import.dart';
 import 'package:flint/src/rules/dart/limit_cross_feature_dependency.dart';
+import 'package:flint/src/rules/dart/avoid_direct_crashlytics.dart';
+import 'package:flint/src/rules/dart/avoid_direct_firebase_analytics.dart';
 import 'package:flint/src/rules/dart/enforce_catch_logging.dart';
+import 'package:flint/src/rules/dart/enforce_talker_error_stacktrace.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_force_unwrap.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
@@ -68,5 +71,8 @@ class _FlintPlugin extends PluginBase {
         EnforceTestFramework(),
         PreferWidgetComposition(),
         EnforceCatchLogging(),
+        AvoidDirectCrashlytics(),
+        AvoidDirectFirebaseAnalytics(),
+        EnforceTalkerErrorStacktrace(),
       ];
 }
