@@ -7,29 +7,32 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// # avoid_deep_import
 ///
 /// ## 규칙
-/// `package:` import 경로의 디렉토리 깊이가 2를 초과하면 경고합니다.
-/// 깊은 import는 모듈 내부 구현에 대한 의존을 의미합니다.
+/// `package:` import 경로의 디렉토리 깊이가 2를 초과하고,
+/// 현재 파일과 다른 모듈에 속하면 경고합니다.
+///
+/// 같은 모듈(2뎁스까지 경로가 동일) 내부의 파일끼리는
+/// 깊은 import가 허용됩니다.
 ///
 /// ## 원리
-/// 깊은 경로의 파일을 직접 import하면 해당 모듈의 내부 구현에
+/// 다른 모듈의 깊은 경로를 직접 import하면 해당 모듈의 내부 구현에
 /// 직접 의존하게 됩니다. 내부 구조가 변경되면 import한 모든 곳이
 /// 깨집니다.
 ///
-/// 배럴 파일(barrel file)이나 공개 API를 통해 import하면
-/// 내부 리팩토링이 외부에 영향을 주지 않습니다.
+/// 같은 모듈 내부에서는 구현 파일끼리 자유롭게 참조해야 하므로
+/// 깊은 import가 자연스럽습니다.
 ///
 /// ## 나쁜 예
 /// ```dart
-/// import 'package:app/features/auth/data/sources/auth_api.dart';
+/// // features/auth/data/repo.dart 에서:
 /// import 'package:app/features/payment/domain/entities/payment.dart';
 /// ```
 ///
 /// ## 좋은 예
 /// ```dart
-/// import 'package:app/features/auth/auth.dart';
-/// import 'package:app/features/payment/payment.dart';
+/// // features/auth/data/repo.dart 에서:
+/// import 'package:app/features/auth/domain/entities/user.dart'; // 같은 모듈
 ///
-/// // 또는 2뎁스 이내
+/// // 또는 2뎁스 이내의 외부 모듈
 /// import 'package:app/core/network/dio_client.dart';
 /// ```
 class AvoidDeepImport extends FlintLintRule {
@@ -38,10 +41,11 @@ class AvoidDeepImport extends FlintLintRule {
   static const _code = LintCode(
     name: 'avoid_deep_import',
     problemMessage:
-        'Import path is too deep (more than 2 directory levels). '
+        'Deep import into another module\'s internals. '
         'This creates tight coupling to internal module structure.',
     correctionMessage:
-        'Import from a barrel file or a shallower public API instead.',
+        'Import from a shallower public API, or move this code '
+        'into the same module.',
   );
 
   static const _maxDepth = 2;
@@ -72,13 +76,30 @@ class AvoidDeepImport extends FlintLintRule {
           libraryUri.substring('package:'.length, libraryUri.indexOf('/'));
       if (importedPackage != currentPackage) return;
 
-      final packagePath = uri.substring(slashIndex + 1);
-      final segments = packagePath.split('/');
+      final importedPath = uri.substring(slashIndex + 1);
+      final importedSegments = importedPath.split('/');
 
       // 디렉토리 깊이 = 세그먼트 수 - 1 (파일명 제외)
-      final dirDepth = segments.length - 1;
+      final dirDepth = importedSegments.length - 1;
+      if (dirDepth <= _maxDepth) return;
 
-      if (dirDepth > _maxDepth) {
+      // 현재 파일의 경로와 비교하여 같은 모듈인지 확인
+      final currentPath =
+          libraryUri.substring(libraryUri.indexOf('/') + 1);
+      final currentSegments = currentPath.split('/');
+
+      // _maxDepth 레벨까지 경로가 동일하면 같은 모듈로 판단
+      bool sameModule = true;
+      for (int i = 0; i < _maxDepth; i++) {
+        if (i >= currentSegments.length ||
+            i >= importedSegments.length ||
+            currentSegments[i] != importedSegments[i]) {
+          sameModule = false;
+          break;
+        }
+      }
+
+      if (!sameModule) {
         reporter.atNode(node, _code);
       }
     });
