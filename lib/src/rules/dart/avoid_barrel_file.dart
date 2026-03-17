@@ -52,16 +52,45 @@ class AvoidBarrelFile extends FlintLintRule {
         'Delete this index.dart and replace usages with direct imports.',
   );
 
+  static const _importCode = LintCode(
+    name: 'avoid_barrel_file',
+    problemMessage:
+        'Do not import barrel files (index.dart). '
+        'This pulls in unnecessary dependencies and slows builds.',
+    correctionMessage:
+        'Import the specific file you need instead of index.dart.',
+  );
+
   @override
   void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,
   ) {
-    if (!resolver.path.endsWith('/index.dart')) return;
+    // index.dart 파일 자체를 감지
+    if (resolver.path.endsWith('/index.dart')) {
+      context.registry.addCompilationUnit((node) {
+        reporter.atNode(node, _code);
+      });
+      return;
+    }
 
-    context.registry.addCompilationUnit((node) {
-      reporter.atNode(node, _code);
+    // index.dart를 import하는 코드를 감지
+    context.registry.addImportDirective((node) {
+      final uri = node.uri.stringValue;
+      if (uri == null) return;
+      if (uri.endsWith('/index.dart') || uri == 'index.dart') {
+        reporter.atNode(node, _importCode);
+      }
+    });
+
+    // index.dart를 export하는 코드를 감지
+    context.registry.addExportDirective((node) {
+      final uri = node.uri.stringValue;
+      if (uri == null) return;
+      if (uri.endsWith('/index.dart') || uri == 'index.dart') {
+        reporter.atNode(node, _importCode);
+      }
     });
   }
 }
