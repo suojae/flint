@@ -23,6 +23,7 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 ///
 /// ## 예외
 /// - `Map<String, dynamic>`은 JSON 파싱의 표준 패턴이므로 허용합니다.
+/// - `List<dynamic>`은 JSON 배열 파싱의 표준 패턴이므로 허용합니다.
 /// - `@override` 메서드 시그니처 내 `dynamic`은 프레임워크가 강제하는
 ///   것이므로 허용합니다. (예: `NavigatorObserver.didPush(Route<dynamic>)`)
 ///
@@ -66,6 +67,7 @@ class AvoidDynamicType extends FlintLintRule {
     context.registry.addNamedType((node) {
       if (node.name.lexeme != 'dynamic') return;
       if (_isJsonMapPattern(node)) return;
+      if (_isJsonListPattern(node)) return;
       if (_isInsideOverrideMethod(node)) return;
 
       reporter.atNode(node, _code);
@@ -87,6 +89,20 @@ class AvoidDynamicType extends FlintLintRule {
       current = current.parent;
     }
     return false;
+  }
+
+  /// `List<dynamic>` 패턴인지 확인합니다.
+  /// JSON 배열 파싱 시 `as List<dynamic>` 캐스팅이 필요합니다.
+  bool _isJsonListPattern(NamedType node) {
+    final parent = node.parent;
+    if (parent is! TypeArgumentList) return false;
+
+    final grandParent = parent.parent;
+    if (grandParent is! NamedType) return false;
+
+    return grandParent.name.lexeme == 'List' &&
+        parent.arguments.length == 1 &&
+        parent.arguments[0] == node;
   }
 
   /// `Map<String, dynamic>` 패턴인지 확인합니다.
