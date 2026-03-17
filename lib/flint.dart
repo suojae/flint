@@ -3,9 +3,13 @@ library flint;
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
+import 'package:flint/src/rules/dart/avoid_force_unwrap.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
 import 'package:flint/src/rules/dart/avoid_long_file.dart';
+import 'package:flint/src/rules/dart/avoid_nested_conditional.dart';
 import 'package:flint/src/rules/dart/avoid_relative_import.dart';
+import 'package:flint/src/rules/dart/max_function_parameters.dart';
+import 'package:flint/src/rules/dart/prefer_talker_logger.dart';
 import 'package:flint/src/rules/functional/avoid_dynamic_type.dart';
 import 'package:flint/src/rules/functional/avoid_mutable_global_state.dart';
 import 'package:flint/src/rules/functional/avoid_mutating_parameters.dart';
@@ -29,9 +33,13 @@ class _FlintPlugin extends PluginBase {
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
         AvoidEmptyCatch(),
+        AvoidForceUnwrap(),
         AvoidLintIgnore(),
         AvoidLongFile(),
+        AvoidNestedConditional(),
         AvoidRelativeImport(),
+        MaxFunctionParameters(),
+        PreferTalkerLogger(),
         AvoidNestedPadding(),
         AvoidMutableGlobalState(),
         AvoidMutatingParameters(),
