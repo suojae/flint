@@ -20,6 +20,7 @@ import 'package:flint/src/rules/functional/avoid_mutable_global_state.dart';
 import 'package:flint/src/rules/functional/avoid_mutating_parameters.dart';
 import 'package:flint/src/rules/functional/prefer_pattern_matching.dart';
 import 'package:flint/src/rules/state/bloc/enforce_bloc_naming.dart';
+import 'package:flint/src/rules/test/enforce_test_framework.dart';
 import 'package:flint/src/rules/flutter/avoid_hardcoded_asset_path.dart';
 import 'package:flint/src/rules/flutter/avoid_hardcoded_color.dart';
 import 'package:flint/src/rules/flutter/avoid_image_opacity.dart';
@@ -58,5 +59,6 @@ class _FlintPlugin extends PluginBase {
         AvoidDynamicType(),
         PreferPatternMatching(),
         EnforceBlocNaming(),
+        EnforceTestFramework(),
       ];
 }
