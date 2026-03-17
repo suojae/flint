@@ -8,7 +8,7 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 ///
 /// ## 규칙
 /// 현재 파일과 import 대상의 package 경로를 비교하여
-/// 공통 조상까지의 거리가 2를 초과하면 경고합니다.
+/// 공통 조상까지의 거리가 3을 초과하면 경고합니다.
 ///
 /// ## 원리
 /// 현재 파일에서 멀리 떨어진 모듈의 내부를 직접 참조하면
@@ -42,7 +42,7 @@ class AvoidDeepImport extends FlintLintRule {
         'to keep related files closer.',
   );
 
-  static const _maxDepth = 2;
+  static const _maxDepth = 3;
 
   @override
   void analyze(
