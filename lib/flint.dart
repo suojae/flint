@@ -2,6 +2,7 @@ library flint;
 
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/dart/avoid_barrel_file.dart';
 import 'package:flint/src/rules/dart/avoid_as_cast.dart';
 import 'package:flint/src/rules/dart/avoid_deep_import.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
@@ -38,6 +39,7 @@ class _FlintPlugin extends PluginBase {
         AvoidVisibilityWidget(),
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
+        AvoidBarrelFile(),
         AvoidAsCast(),
         AvoidDeepImport(),
         AvoidEmptyCatch(),
