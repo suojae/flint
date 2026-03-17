@@ -5,6 +5,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 import 'package:flint/src/rules/dart/avoid_barrel_file.dart';
 import 'package:flint/src/rules/dart/avoid_as_cast.dart';
 import 'package:flint/src/rules/dart/avoid_deep_import.dart';
+import 'package:flint/src/rules/dart/limit_cross_feature_dependency.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_force_unwrap.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
@@ -43,6 +44,7 @@ class _FlintPlugin extends PluginBase {
         AvoidBarrelFile(),
         AvoidAsCast(),
         AvoidDeepImport(),
+        LimitCrossFeatureDependency(),
         AvoidEmptyCatch(),
         AvoidForceUnwrap(),
         AvoidLintIgnore(),
