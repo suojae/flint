@@ -7,26 +7,26 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// # avoid_deep_import
 ///
 /// ## 규칙
-/// 현재 파일에서 import 대상까지의 상대 경로를 계산하여
-/// `../` 횟수가 2를 초과하면 경고합니다.
+/// 현재 파일과 import 대상의 package 경로를 비교하여
+/// 공통 조상까지의 거리가 2를 초과하면 경고합니다.
 ///
 /// ## 원리
-/// 상대 경로상 `../`가 많다는 것은 현재 위치에서 멀리 떨어진
-/// 모듈의 내부를 직접 참조한다는 의미입니다.
+/// 현재 파일에서 멀리 떨어진 모듈의 내부를 직접 참조하면
+/// 구조 변경에 취약해집니다.
 /// 가까운 파일끼리의 import는 자연스럽지만,
-/// 먼 모듈의 깊은 경로를 참조하면 구조 변경에 취약해집니다.
+/// 먼 모듈의 깊은 경로를 참조하는 것은 강한 결합을 만듭니다.
 ///
 /// ## 나쁜 예
 /// ```dart
 /// // features/auth/data/repo.dart 에서:
-/// // ../../../payment/domain/entities/payment.dart (../ 3회)
-/// import 'package:app/features/payment/domain/entities/payment.dart';
+/// // 공통 조상까지 3단계 → 위반
+/// import 'package:app/core/network/http/client.dart';
 /// ```
 ///
 /// ## 좋은 예
 /// ```dart
 /// // features/auth/data/repo.dart 에서:
-/// // ../domain/entities/user.dart (../ 1회)
+/// // 공통 조상까지 1단계 → 허용
 /// import 'package:app/features/auth/domain/entities/user.dart';
 /// ```
 class AvoidDeepImport extends FlintLintRule {
@@ -35,7 +35,7 @@ class AvoidDeepImport extends FlintLintRule {
   static const _code = LintCode(
     name: 'avoid_deep_import',
     problemMessage:
-        'Import is too far from the current file (more than 2 levels up). '
+        'Import target is too far from the current file. '
         'This creates tight coupling to a distant module\'s internals.',
     correctionMessage:
         'Import from a shallower public API, or restructure '
@@ -92,7 +92,7 @@ class AvoidDeepImport extends FlintLintRule {
         commonPrefix++;
       }
 
-      // ../  횟수 = 현재 디렉토리에서 공통 조상까지 올라가는 단계
+      // 현재 디렉토리에서 공통 조상까지 올라가는 단계 수
       final levelsUp = currentDir.length - commonPrefix;
 
       if (levelsUp > _maxDepth) {
