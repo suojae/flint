@@ -1,3 +1,4 @@
+import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
@@ -57,8 +58,22 @@ class AvoidLongFile extends FlintLintRule {
     CustomLintContext context,
   ) {
     context.registry.addCompilationUnit((node) {
-      final lineCount = node.lineInfo.getLocation(node.end).lineNumber;
-      if (lineCount > _maxLines) {
+      final totalLines = node.lineInfo.getLocation(node.end).lineNumber;
+
+      // import/export 문이 차지하는 줄 수 계산
+      int directiveLines = 0;
+      for (final directive in node.directives) {
+        if (directive is ImportDirective || directive is ExportDirective) {
+          final start =
+              node.lineInfo.getLocation(directive.offset).lineNumber;
+          final end =
+              node.lineInfo.getLocation(directive.end).lineNumber;
+          directiveLines += end - start + 1;
+        }
+      }
+
+      final codeLines = totalLines - directiveLines;
+      if (codeLines > _maxLines) {
         reporter.atNode(node, _code);
       }
     });
