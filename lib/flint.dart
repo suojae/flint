@@ -4,6 +4,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
+import 'package:flint/src/rules/dart/avoid_long_file.dart';
 import 'package:flint/src/rules/dart/avoid_relative_import.dart';
 import 'package:flint/src/rules/functional/avoid_dynamic_type.dart';
 import 'package:flint/src/rules/functional/avoid_mutable_global_state.dart';
@@ -29,6 +30,7 @@ class _FlintPlugin extends PluginBase {
         AvoidSingleChildColumnOrRow(),
         AvoidEmptyCatch(),
         AvoidLintIgnore(),
+        AvoidLongFile(),
         AvoidRelativeImport(),
         AvoidNestedPadding(),
         AvoidMutableGlobalState(),
