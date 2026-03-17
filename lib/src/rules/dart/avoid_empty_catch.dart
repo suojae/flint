@@ -30,8 +30,8 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// ```dart
 /// try {
 ///   await saveData();
-/// } catch (e) {
-///   debugPrint('Failed to save: $e');
+/// } catch (e, st) {
+///   talker.error('Failed to save', e, st);
 /// }
 ///
 /// // 의도적으로 무시하는 경우, 예외 변수를 _로 표기

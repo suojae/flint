@@ -6,6 +6,7 @@ import 'package:flint/src/rules/dart/avoid_barrel_file.dart';
 import 'package:flint/src/rules/dart/avoid_as_cast.dart';
 import 'package:flint/src/rules/dart/avoid_deep_import.dart';
 import 'package:flint/src/rules/dart/limit_cross_feature_dependency.dart';
+import 'package:flint/src/rules/dart/enforce_catch_logging.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_force_unwrap.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
@@ -30,6 +31,7 @@ import 'package:flint/src/rules/flutter/avoid_nested_padding.dart';
 import 'package:flint/src/rules/flutter/avoid_shrink_wrap_in_list.dart';
 import 'package:flint/src/rules/flutter/avoid_single_child_column_or_row.dart';
 import 'package:flint/src/rules/flutter/avoid_visibility_widget.dart';
+import 'package:flint/src/rules/flutter/prefer_widget_composition.dart';
 
 PluginBase createPlugin() => _FlintPlugin();
 
@@ -64,5 +66,7 @@ class _FlintPlugin extends PluginBase {
         AvoidBlocInWidget(),
         EnforceBlocNaming(),
         EnforceTestFramework(),
+        PreferWidgetComposition(),
+        EnforceCatchLogging(),
       ];
 }
