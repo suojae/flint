@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_lint_ignore
 ///
 /// ## 규칙
@@ -35,7 +37,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// // 또는 코드를 수정하여 린트 경고 자체를 해결
 /// debugPrint('debug');
 /// ```
-class AvoidLintIgnore extends DartLintRule {
+class AvoidLintIgnore extends FlintLintRule {
   AvoidLintIgnore() : super(code: _code);
 
   static const _code = LintCode(
@@ -49,7 +51,7 @@ class AvoidLintIgnore extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

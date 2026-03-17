@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_visibility_widget
@@ -36,7 +38,7 @@ import 'package:flint/src/utils/widget_helpers.dart';
 /// ```dart
 /// if (isShown) MyWidget()
 /// ```
-class AvoidVisibilityWidget extends DartLintRule {
+class AvoidVisibilityWidget extends FlintLintRule {
   AvoidVisibilityWidget() : super(code: _code);
 
   static const _code = LintCode(
@@ -49,7 +51,7 @@ class AvoidVisibilityWidget extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

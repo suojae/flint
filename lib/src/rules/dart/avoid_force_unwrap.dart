@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/token.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_force_unwrap
 ///
 /// ## 규칙
@@ -36,7 +38,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///   use(value);
 /// }
 /// ```
-class AvoidForceUnwrap extends DartLintRule {
+class AvoidForceUnwrap extends FlintLintRule {
   AvoidForceUnwrap() : super(code: _code);
 
   static const _code = LintCode(
@@ -50,7 +52,7 @@ class AvoidForceUnwrap extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

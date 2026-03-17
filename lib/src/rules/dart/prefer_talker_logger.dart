@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # prefer_talker_logger
 ///
 /// ## 규칙
@@ -25,7 +27,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// talker.debug('response: $data');
 /// talker.error('failed to fetch', error, stackTrace);
 /// ```
-class PreferTalkerLogger extends DartLintRule {
+class PreferTalkerLogger extends FlintLintRule {
   PreferTalkerLogger() : super(code: _code);
 
   static const _code = LintCode(
@@ -41,7 +43,7 @@ class PreferTalkerLogger extends DartLintRule {
   static const _disallowedFunctions = {'print', 'debugPrint'};
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

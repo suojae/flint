@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # max_function_parameters
 ///
 /// ## 규칙
@@ -36,7 +38,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///   final String phone;
 /// }
 /// ```
-class MaxFunctionParameters extends DartLintRule {
+class MaxFunctionParameters extends FlintLintRule {
   MaxFunctionParameters() : super(code: _code);
 
   static const _code = LintCode(
@@ -52,7 +54,7 @@ class MaxFunctionParameters extends DartLintRule {
   static const _maxParameters = 4;
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

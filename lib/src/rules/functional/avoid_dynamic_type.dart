@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_dynamic_type
 ///
 /// ## 규칙
@@ -34,7 +36,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// // 제네릭으로 타입을 유연하게
 /// T parse<T>(String raw) => ...;
 /// ```
-class AvoidDynamicType extends DartLintRule {
+class AvoidDynamicType extends FlintLintRule {
   AvoidDynamicType() : super(code: _code);
 
   static const _code = LintCode(
@@ -47,7 +49,7 @@ class AvoidDynamicType extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

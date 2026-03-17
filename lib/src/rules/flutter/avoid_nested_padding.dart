@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_nested_padding
@@ -36,7 +38,7 @@ import 'package:flint/src/utils/widget_helpers.dart';
 ///   child: Text('hello'),
 /// )
 /// ```
-class AvoidNestedPadding extends DartLintRule {
+class AvoidNestedPadding extends FlintLintRule {
   AvoidNestedPadding() : super(code: _code);
 
   static const _code = LintCode(
@@ -48,7 +50,7 @@ class AvoidNestedPadding extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

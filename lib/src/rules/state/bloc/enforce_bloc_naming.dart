@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # enforce_bloc_naming
 ///
 /// ## 규칙
@@ -27,7 +29,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// class AuthBloc extends Bloc<AuthEvent, AuthState> {}
 /// class CounterCubit extends Cubit<int> {}
 /// ```
-class EnforceBlocNaming extends DartLintRule {
+class EnforceBlocNaming extends FlintLintRule {
   EnforceBlocNaming() : super(code: _blocCode);
 
   static const _blocCode = LintCode(
@@ -39,7 +41,7 @@ class EnforceBlocNaming extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

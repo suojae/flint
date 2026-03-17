@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_image_opacity
@@ -38,7 +40,7 @@ import 'package:flint/src/utils/widget_helpers.dart';
 ///   colorBlendMode: BlendMode.modulate,
 /// )
 /// ```
-class AvoidImageOpacity extends DartLintRule {
+class AvoidImageOpacity extends FlintLintRule {
   AvoidImageOpacity() : super(code: _code);
 
   static const _code = LintCode(
@@ -54,7 +56,7 @@ class AvoidImageOpacity extends DartLintRule {
   static const _imageTypes = {'Image', 'FadeInImage', 'CachedNetworkImage'};
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

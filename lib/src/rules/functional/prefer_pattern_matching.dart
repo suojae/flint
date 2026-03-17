@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # prefer_pattern_matching
 ///
 /// ## 규칙
@@ -49,7 +51,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///   case 'pending':  wait();
 /// }
 /// ```
-class PreferPatternMatching extends DartLintRule {
+class PreferPatternMatching extends FlintLintRule {
   PreferPatternMatching() : super(code: _code);
 
   static const _code = LintCode(
@@ -64,7 +66,7 @@ class PreferPatternMatching extends DartLintRule {
   static const _minBranches = 3;
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

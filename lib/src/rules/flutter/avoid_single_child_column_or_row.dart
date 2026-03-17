@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_single_child_column_or_row
@@ -44,7 +46,7 @@ import 'package:flint/src/utils/widget_helpers.dart';
 /// // 아무것도 필요 없으면 그냥 직접 사용
 /// Text('hello')
 /// ```
-class AvoidSingleChildColumnOrRow extends DartLintRule {
+class AvoidSingleChildColumnOrRow extends FlintLintRule {
   AvoidSingleChildColumnOrRow() : super(code: _code);
 
   static const _code = LintCode(
@@ -59,7 +61,7 @@ class AvoidSingleChildColumnOrRow extends DartLintRule {
   static const _flexWidgets = {'Column', 'Row'};
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

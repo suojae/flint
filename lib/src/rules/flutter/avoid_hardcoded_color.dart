@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_hardcoded_color
 ///
 /// ## 규칙
@@ -33,7 +35,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// Container(color: Theme.of(context).colorScheme.surface)
 /// Text('hello', style: TextStyle(color: context.colorScheme.onSurface))
 /// ```
-class AvoidHardcodedColor extends DartLintRule {
+class AvoidHardcodedColor extends FlintLintRule {
   AvoidHardcodedColor() : super(code: _code);
 
   static const _code = LintCode(
@@ -46,7 +48,7 @@ class AvoidHardcodedColor extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

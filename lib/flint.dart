@@ -2,13 +2,16 @@ library flint;
 
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/dart/avoid_as_cast.dart';
 import 'package:flint/src/rules/dart/avoid_empty_catch.dart';
 import 'package:flint/src/rules/dart/avoid_force_unwrap.dart';
 import 'package:flint/src/rules/dart/avoid_lint_ignore.dart';
 import 'package:flint/src/rules/dart/avoid_long_file.dart';
 import 'package:flint/src/rules/dart/avoid_nested_conditional.dart';
 import 'package:flint/src/rules/dart/avoid_relative_import.dart';
+import 'package:flint/src/rules/dart/avoid_untyped_collection.dart';
 import 'package:flint/src/rules/dart/max_function_parameters.dart';
+import 'package:flint/src/rules/dart/prefer_explicit_return_type.dart';
 import 'package:flint/src/rules/dart/prefer_talker_logger.dart';
 import 'package:flint/src/rules/functional/avoid_dynamic_type.dart';
 import 'package:flint/src/rules/functional/avoid_mutable_global_state.dart';
@@ -32,13 +35,16 @@ class _FlintPlugin extends PluginBase {
         AvoidVisibilityWidget(),
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
+        AvoidAsCast(),
         AvoidEmptyCatch(),
         AvoidForceUnwrap(),
         AvoidLintIgnore(),
         AvoidLongFile(),
         AvoidNestedConditional(),
         AvoidRelativeImport(),
+        AvoidUntypedCollection(),
         MaxFunctionParameters(),
+        PreferExplicitReturnType(),
         PreferTalkerLogger(),
         AvoidNestedPadding(),
         AvoidMutableGlobalState(),

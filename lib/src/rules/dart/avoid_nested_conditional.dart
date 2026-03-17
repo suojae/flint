@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_nested_conditional
 ///
 /// ## 규칙
@@ -31,7 +33,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///   _ => 'Guest',
 /// };
 /// ```
-class AvoidNestedConditional extends DartLintRule {
+class AvoidNestedConditional extends FlintLintRule {
   AvoidNestedConditional() : super(code: _code);
 
   static const _code = LintCode(
@@ -45,7 +47,7 @@ class AvoidNestedConditional extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

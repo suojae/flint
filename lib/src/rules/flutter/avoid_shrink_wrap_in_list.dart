@@ -2,6 +2,8 @@ import 'package:analyzer/dart/ast/ast.dart';
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 import 'package:flint/src/utils/widget_helpers.dart';
 
 /// # avoid_shrink_wrap_in_list
@@ -46,7 +48,7 @@ import 'package:flint/src/utils/widget_helpers.dart';
 ///   ],
 /// )
 /// ```
-class AvoidShrinkWrapInList extends DartLintRule {
+class AvoidShrinkWrapInList extends FlintLintRule {
   AvoidShrinkWrapInList() : super(code: _code);
 
   static const _code = LintCode(
@@ -66,7 +68,7 @@ class AvoidShrinkWrapInList extends DartLintRule {
   };
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

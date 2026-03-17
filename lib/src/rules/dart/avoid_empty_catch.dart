@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_empty_catch
 ///
 /// ## 규칙
@@ -39,7 +41,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 ///   // 캐시 클리어 실패는 무시해도 안전함
 /// }
 /// ```
-class AvoidEmptyCatch extends DartLintRule {
+class AvoidEmptyCatch extends FlintLintRule {
   AvoidEmptyCatch() : super(code: _code);
 
   static const _code = LintCode(
@@ -53,7 +55,7 @@ class AvoidEmptyCatch extends DartLintRule {
   );
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,

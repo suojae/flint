@@ -1,6 +1,8 @@
 import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
+import 'package:flint/src/rules/flint_lint_rule.dart';
+
 /// # avoid_long_file
 ///
 /// ## 규칙
@@ -33,7 +35,7 @@ import 'package:custom_lint_builder/custom_lint_builder.dart';
 /// // user_controller.dart
 /// class UserController { ... }
 /// ```
-class AvoidLongFile extends DartLintRule {
+class AvoidLongFile extends FlintLintRule {
   AvoidLongFile() : super(code: _code);
 
   static const _code = LintCode(
@@ -49,7 +51,7 @@ class AvoidLongFile extends DartLintRule {
   static const _maxLines = 500;
 
   @override
-  void run(
+  void analyze(
     CustomLintResolver resolver,
     DiagnosticReporter reporter,
     CustomLintContext context,
