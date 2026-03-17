@@ -7,33 +7,27 @@ import 'package:flint/src/rules/flint_lint_rule.dart';
 /// # avoid_deep_import
 ///
 /// ## 규칙
-/// `package:` import 경로의 디렉토리 깊이가 2를 초과하고,
-/// 현재 파일과 다른 모듈에 속하면 경고합니다.
-///
-/// 같은 모듈(2뎁스까지 경로가 동일) 내부의 파일끼리는
-/// 깊은 import가 허용됩니다.
+/// 현재 파일에서 import 대상까지의 상대 경로를 계산하여
+/// `../` 횟수가 2를 초과하면 경고합니다.
 ///
 /// ## 원리
-/// 다른 모듈의 깊은 경로를 직접 import하면 해당 모듈의 내부 구현에
-/// 직접 의존하게 됩니다. 내부 구조가 변경되면 import한 모든 곳이
-/// 깨집니다.
-///
-/// 같은 모듈 내부에서는 구현 파일끼리 자유롭게 참조해야 하므로
-/// 깊은 import가 자연스럽습니다.
+/// 상대 경로상 `../`가 많다는 것은 현재 위치에서 멀리 떨어진
+/// 모듈의 내부를 직접 참조한다는 의미입니다.
+/// 가까운 파일끼리의 import는 자연스럽지만,
+/// 먼 모듈의 깊은 경로를 참조하면 구조 변경에 취약해집니다.
 ///
 /// ## 나쁜 예
 /// ```dart
 /// // features/auth/data/repo.dart 에서:
+/// // ../../../payment/domain/entities/payment.dart (../ 3회)
 /// import 'package:app/features/payment/domain/entities/payment.dart';
 /// ```
 ///
 /// ## 좋은 예
 /// ```dart
 /// // features/auth/data/repo.dart 에서:
-/// import 'package:app/features/auth/domain/entities/user.dart'; // 같은 모듈
-///
-/// // 또는 2뎁스 이내의 외부 모듈
-/// import 'package:app/core/network/dio_client.dart';
+/// // ../domain/entities/user.dart (../ 1회)
+/// import 'package:app/features/auth/domain/entities/user.dart';
 /// ```
 class AvoidDeepImport extends FlintLintRule {
   AvoidDeepImport() : super(code: _code);
@@ -41,11 +35,11 @@ class AvoidDeepImport extends FlintLintRule {
   static const _code = LintCode(
     name: 'avoid_deep_import',
     problemMessage:
-        'Deep import into another module\'s internals. '
-        'This creates tight coupling to internal module structure.',
+        'Import is too far from the current file (more than 2 levels up). '
+        'This creates tight coupling to a distant module\'s internals.',
     correctionMessage:
-        'Import from a shallower public API, or move this code '
-        'into the same module.',
+        'Import from a shallower public API, or restructure '
+        'to keep related files closer.',
   );
 
   static const _maxDepth = 2;
@@ -76,30 +70,32 @@ class AvoidDeepImport extends FlintLintRule {
           libraryUri.substring('package:'.length, libraryUri.indexOf('/'));
       if (importedPackage != currentPackage) return;
 
-      final importedPath = uri.substring(slashIndex + 1);
-      final importedSegments = importedPath.split('/');
+      // 현재 파일과 import 대상의 디렉토리 세그먼트 추출
+      final importedSegments = uri.substring(slashIndex + 1).split('/');
+      final importedDir = importedSegments.sublist(
+        0,
+        importedSegments.length - 1,
+      );
 
-      // 디렉토리 깊이 = 세그먼트 수 - 1 (파일명 제외)
-      final dirDepth = importedSegments.length - 1;
-      if (dirDepth <= _maxDepth) return;
+      final currentSegments =
+          libraryUri.substring(libraryUri.indexOf('/') + 1).split('/');
+      final currentDir = currentSegments.sublist(
+        0,
+        currentSegments.length - 1,
+      );
 
-      // 현재 파일의 경로와 비교하여 같은 모듈인지 확인
-      final currentPath =
-          libraryUri.substring(libraryUri.indexOf('/') + 1);
-      final currentSegments = currentPath.split('/');
-
-      // _maxDepth 레벨까지 경로가 동일하면 같은 모듈로 판단
-      bool sameModule = true;
-      for (int i = 0; i < _maxDepth; i++) {
-        if (i >= currentSegments.length ||
-            i >= importedSegments.length ||
-            currentSegments[i] != importedSegments[i]) {
-          sameModule = false;
-          break;
-        }
+      // 공통 접두사 길이 계산
+      int commonPrefix = 0;
+      while (commonPrefix < currentDir.length &&
+          commonPrefix < importedDir.length &&
+          currentDir[commonPrefix] == importedDir[commonPrefix]) {
+        commonPrefix++;
       }
 
-      if (!sameModule) {
+      // ../  횟수 = 현재 디렉토리에서 공통 조상까지 올라가는 단계
+      final levelsUp = currentDir.length - commonPrefix;
+
+      if (levelsUp > _maxDepth) {
         reporter.atNode(node, _code);
       }
     });
