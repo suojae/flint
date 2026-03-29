@@ -28,6 +28,7 @@ analyzer:
 | `avoid_hardcoded_color` | build 메서드에서 `Color(0xFF...)` 하드코딩 금지. `colorScheme`을 사용하세요. |
 | `avoid_visibility_widget` | `Visibility`/`Offstage`로 위젯을 숨기지 마세요. 조건부 렌더링을 사용하세요. |
 | `avoid_shrink_wrap_in_list` | `ListView`/`GridView`에서 `shrinkWrap: true` 금지. Sliver를 사용하세요. |
+| `enforce_dispose_owned_fields` | `State`가 직접 만든 controller/node는 `dispose()`에서 반드시 정리하세요. |
 
 ## 사용법
 

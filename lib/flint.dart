@@ -35,6 +35,7 @@ import 'package:flint/src/rules/flutter/avoid_shrink_wrap_in_list.dart';
 import 'package:flint/src/rules/flutter/avoid_single_child_column_or_row.dart';
 import 'package:flint/src/rules/flutter/avoid_visibility_widget.dart';
 import 'package:flint/src/rules/flutter/avoid_widget_helper_method.dart';
+import 'package:flint/src/rules/flutter/enforce_dispose_owned_fields.dart';
 import 'package:flint/src/rules/flutter/enforce_widget_suffix.dart';
 import 'package:flint/src/rules/flutter/prefer_widget_composition.dart';
 
@@ -50,6 +51,7 @@ class _FlintPlugin extends PluginBase {
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
         AvoidWidgetHelperMethod(),
+        EnforceDisposeOwnedFields(),
         AvoidBarrelFile(),
         AvoidAsCast(),
         AvoidDeepImport(),
