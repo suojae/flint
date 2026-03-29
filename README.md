@@ -2,6 +2,10 @@
 
 Flutter 안티패턴을 잡아주는 린트 규칙 모음. 설정 없이, 추가만 하면 바로 동작합니다.
 
+## Related Packages
+
+- [Swint](./packages/swint/README.md): `swift + lint`를 줄인 Swift 린트 패키지
+
 ## 설치
 
 ```yaml
