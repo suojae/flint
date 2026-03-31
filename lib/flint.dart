@@ -29,8 +29,11 @@ import 'package:flint/src/rules/state/bloc/enforce_bloc_naming.dart';
 import 'package:flint/src/rules/test/enforce_test_framework.dart';
 import 'package:flint/src/rules/flutter/avoid_hardcoded_asset_path.dart';
 import 'package:flint/src/rules/flutter/avoid_hardcoded_color.dart';
+import 'package:flint/src/rules/flutter/avoid_controller_in_build.dart';
 import 'package:flint/src/rules/flutter/avoid_image_opacity.dart';
 import 'package:flint/src/rules/flutter/avoid_nested_padding.dart';
+import 'package:flint/src/rules/flutter/avoid_raw_go_router_navigation.dart';
+import 'package:flint/src/rules/flutter/avoid_side_effect_in_build.dart';
 import 'package:flint/src/rules/flutter/avoid_shrink_wrap_in_list.dart';
 import 'package:flint/src/rules/flutter/avoid_single_child_column_or_row.dart';
 import 'package:flint/src/rules/flutter/avoid_visibility_widget.dart';
@@ -47,6 +50,9 @@ class _FlintPlugin extends PluginBase {
         AvoidImageOpacity(),
         AvoidHardcodedAssetPath(),
         AvoidHardcodedColor(),
+        AvoidControllerInBuild(),
+        AvoidRawGoRouterNavigation(),
+        AvoidSideEffectInBuild(),
         AvoidVisibilityWidget(),
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),

@@ -1,3 +1,9 @@
+## Unreleased
+
+- `avoid_controller_in_build` - `build()` 안에서 `TextEditingController`, `ScrollController`, `FocusNode` 같은 dispose 대상 객체 생성 금지
+- `avoid_raw_go_router_navigation` - `context.go('/x')`, `router.pushNamed('foo')` 같은 raw `go_router` 네비게이션 API 사용 금지
+- `avoid_side_effect_in_build` - `build()` 안에서 `Navigator.push`, `showDialog`, `bloc.add()` 같은 side effect 직접 실행 금지
+
 ## 0.1.0
 
 - 최초 릴리즈

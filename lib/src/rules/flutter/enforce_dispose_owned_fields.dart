@@ -5,6 +5,7 @@ import 'package:analyzer/error/listener.dart';
 import 'package:custom_lint_builder/custom_lint_builder.dart';
 
 import 'package:flint/src/rules/flint_lint_rule.dart';
+import 'package:flint/src/utils/disposable_helpers.dart';
 
 /// # enforce_dispose_owned_fields
 ///
@@ -101,11 +102,12 @@ class EnforceDisposeOwnedFields extends FlintLintRule {
     for (final member in node.members) {
       if (member is! FieldDeclaration || member.isStatic) continue;
 
-      final declaredTypeName = _extractTypeName(member.fields.type);
+      final declaredTypeName = extractNamedTypeName(member.fields.type);
 
       for (final variable in member.fields.variables) {
         final variableName = variable.name.lexeme;
-        final ownedTypeName = _extractOwnedTypeName(variable.initializer);
+        final ownedTypeName =
+            extractOwnedDisposableTypeName(variable.initializer);
 
         if (ownedTypeName != null) {
           ownedFields[variableName] = variable;
@@ -114,7 +116,7 @@ class EnforceDisposeOwnedFields extends FlintLintRule {
 
         if (variable.initializer == null &&
             declaredTypeName != null &&
-            _ownedTypeNames.contains(declaredTypeName)) {
+            ownedDisposableTypeNames.contains(declaredTypeName)) {
           initStateCandidates[variableName] = variable;
         }
       }
@@ -179,7 +181,7 @@ class _OwnedFieldAssignmentFinder extends RecursiveAstVisitor<void> {
       return;
     }
 
-    if (_extractOwnedTypeName(node.rightHandSide) != null) {
+    if (extractOwnedDisposableTypeName(node.rightHandSide) != null) {
       assignedOwnedFields.add(fieldName);
     }
 
@@ -223,41 +225,6 @@ const _stateBaseClassNames = {
   'ConsumerState',
   'HookConsumerState',
 };
-
-const _ownedTypeNames = {
-  'AnimationController',
-  'FocusNode',
-  'PageController',
-  'ScrollController',
-  'TabController',
-  'TextEditingController',
-};
-
-String? _extractTypeName(TypeAnnotation? type) {
-  if (type is NamedType) return type.name.lexeme;
-  return null;
-}
-
-String? _extractOwnedTypeName(Expression? expression) {
-  if (expression == null) return null;
-
-  if (expression is ParenthesizedExpression) {
-    return _extractOwnedTypeName(expression.expression);
-  }
-
-  if (expression is CascadeExpression) {
-    return _extractOwnedTypeName(expression.target);
-  }
-
-  if (expression is InstanceCreationExpression) {
-    final typeName = expression.constructorName.type.name.lexeme;
-    if (_ownedTypeNames.contains(typeName)) {
-      return typeName;
-    }
-  }
-
-  return null;
-}
 
 String? _extractFieldName(Expression? expression) {
   if (expression == null) return null;
