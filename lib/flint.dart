@@ -40,6 +40,7 @@ import 'package:flint/src/rules/flutter/avoid_visibility_widget.dart';
 import 'package:flint/src/rules/flutter/avoid_widget_helper_method.dart';
 import 'package:flint/src/rules/flutter/enforce_dispose_owned_fields.dart';
 import 'package:flint/src/rules/flutter/enforce_widget_suffix.dart';
+import 'package:flint/src/rules/flutter/prefer_specific_media_query_methods.dart';
 import 'package:flint/src/rules/flutter/prefer_widget_composition.dart';
 
 PluginBase createPlugin() => _FlintPlugin();
@@ -57,6 +58,7 @@ class _FlintPlugin extends PluginBase {
         AvoidShrinkWrapInList(),
         AvoidSingleChildColumnOrRow(),
         AvoidWidgetHelperMethod(),
+        PreferSpecificMediaQueryMethods(),
         EnforceDisposeOwnedFields(),
         AvoidBarrelFile(),
         AvoidAsCast(),
