@@ -33,6 +33,7 @@ analyzer:
 | `avoid_shrink_wrap_in_list` | `ListView`/`GridView`에서 `shrinkWrap: true` 금지. Sliver를 사용하세요. |
 | `prefer_specific_media_query_methods` | `MediaQuery.of(context).size`, `.padding`, `.devicePixelRatio` 대신 `sizeOf`, `paddingOf`, `devicePixelRatioOf` 같은 전용 접근자를 사용하세요. |
 | `enforce_dispose_owned_fields` | `State`가 직접 만든 controller/node는 `dispose()`에서 반드시 정리하세요. |
+| `enforce_layer_dependency_direction` | `features/<feature>/{domain,data,presentation}` 레이어 의존 방향을 강제합니다. |
 
 ## 사용법
 
